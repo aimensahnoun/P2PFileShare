@@ -27,7 +27,7 @@ The program has been tested and succeeded in the following aspects:
  
 ## Known Limitations
 
-  - **IP address needs to be hardcoded since it cannot run the following code correctly**
+   - **IP address needs to be hardcoded on MacOS since it cannot run the following code correctly**
 ```bash
 socket.gethostbyname(socket.gethostname())
 ```
