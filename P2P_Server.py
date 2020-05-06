@@ -21,39 +21,30 @@ def getFile(givenname):
     counter = 0
     for n in temp:
         if givenname.lower() in n.lower():
-            print('found')
             counter = counter + 1
             print(counter)
     if counter == 1:
         for n in temp:
-            print(n)
             if givenname.lower() in n.lower():
                 filename = n
                 fsize = os.path.getsize(n)
                 CHUNK_SIZE = math.ceil(math.ceil(fsize) / 5)
-                print('FOUND')
                 state = True
     elif counter > 1:
         extension = input(
             "There are multiple files with the name you inputed, what is the extension of the file you need\n")
         newName = givenname + extension
-
         for n in temp:
-            print(n)
             if newName.lower() in n.lower():
-                filename = file
+                filename = n
                 fsize = os.path.getsize(n)
                 CHUNK_SIZE = math.ceil(math.ceil(fsize) / 5)
                 state = True
-                print('FOUND')
     else:
         state = False
         print('File not found')
         filename = ''
         CHUNK_SIZE = 0
-    print(filename)
-    print(CHUNK_SIZE)
-    print(state)
     return filename, CHUNK_SIZE, state
 
 
