@@ -11,16 +11,16 @@ receiver.bind(('', 5000))
 contentDictionary = {}
 
 
-def contentManager(*args):
-    for file in files:
-        if file in contentDictionary.keys():
-            if user_ip in contentDictionary[file]:
-                break
-            else:
-                contentDictionary[file] = contentDictionary[file] + ',' + user_ip
+def contentManager(inputfiles,givenip):
+    for n in inputfiles:
+        if n in contentDictionary.keys():
+            if givenip not in contentDictionary[n]:
+                contentDictionary[n].append(givenip)
         else:
-            contentDictionary.update({file: user_ip})
-
+            ips = [givenip] 
+            contentDictionary.update({n: ips})
+   
+    
 
 while True:
     data, address = receiver.recvfrom(1024)  # buffer size is 1024 bytes
@@ -33,3 +33,4 @@ while True:
     file = open("contentDictionary.txt", "w")
     file.write(json.dumps(contentDictionary))
     file.close()
+    
