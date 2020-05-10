@@ -57,41 +57,42 @@ while True:
     while True:
         for chunk in chunkNames:
             ips = contentDictionary[chunk]
-            ips = ips.split(',')
+            
             tries = 0
             for ip in ips:
-                try:
-                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                    s.settimeout(5)
-                    s.connect((ip, port))
+                if ip != socket.gethostbyname(socket.gethostbyname):
+                    try:
+                        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        s.settimeout(5)
+                        s.connect((ip, port))
 
-                    message = {'filename': chunk}
-                    message = json.dumps(message).encode('utf-8')
-                    s.send(bytes(message))
+                        message = {'filename': chunk}
+                        message = json.dumps(message).encode('utf-8')
+                        s.send(bytes(message))
 
-                    with open(path + '/' + chunk, 'wb') as f:
+                        with open(path + '/' + chunk, 'wb') as f:
 
-                        while True:
-                            print('receiving data...')
-                            data = s.recv(9999999)
+                            while True:
+                                print('receiving data...')
+                                data = s.recv(1024)
 
-                            if not data:
-                                break
-                            # write data to a file
-                            f.write(data)
+                                if not data:
+                                    break
+                                # write data to a file
+                                f.write(data)
 
-                    f.close()
-                    time = datetime.now()
-                    logmessage = str(time) + ' , ' + chunk + ' , ' + 'downloaded from : ' + ip + '\n'
-                    print(logmessage)
-                    log.write(logmessage)
-                    s.send(bytes('download done', 'utf-8'))
-
-                except socket.error:
-                    print('Connection timed out with : ' + ip)
-                    tries += 1
-                finally:
-                    s.close()
+                        f.close()
+                        time = datetime.now()
+                        logmessage = str(time) + ' , ' + chunk + ' , ' + 'downloaded from : ' + ip + '\n'
+                        print(logmessage)
+                        log.write(logmessage)
+                        s.send(bytes('download done', 'utf-8'))
+                        break
+                    except socket.error:
+                        print('Connection timed out with : ' + ip)
+                        tries += 1
+                    finally:
+                        s.close()
             if tries == len(ips):
                 print("CHUNK " + chunk + " CANNOT BE DOWNLOADED FROM ONLINE PEERS")
         log.close()
