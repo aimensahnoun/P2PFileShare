@@ -1,6 +1,4 @@
-﻿
 # P2P File Sharing Application
-
 ## How It Works
 - **P2P_Server gets the file name from the host and searchs for any files in the same directory as the executable for a file with the same name, If there exists multiple files with the same name but different extensions, the server would ask the host to specify the extension of the file to be hosted. splitting it into 5 chunks and storing it in the same directory**
 - **Service_Announcer asks the host for their username, after getting it the Announcer would then go through the same directory that it's stored in getting a list of all the files that exist there and sends a JSON to the Service_Listener containing the username and the files they host**
@@ -21,13 +19,16 @@ The program has been tested and succeeded in the following aspects:
   - **Displaying Download Failed message if the Downloader can't get any chunk of the file**
   - **Server being able to host multiple files with different extensions without the need to change the code**
   - **Downloader being able to download multiple files with different extensions without the need to change the code**
+  - **Downloader stores all received files into a subdirectory called P2PDownloadFolder**
+  - **Announcer checks subdirectories for downloaded files in order to host them again**
+  - **Announcer only checks for files with no extenions ex: .png because the files served by the server do not have an extension to them**
   - **Downloading and receiving files both on local networks and Hamachi VPN** 
   - **Correctly displaying a Download and Server log in the same directory**
   - **Tested on Linux, Windows, and Mac OS**
  
 ## Known Limitations
 
-   - **IP address needs to be hardcoded on MacOS since it cannot run the following code correctly**
+  - **IP address needs to be hardcoded on MacOS since it cannot run the following code correctly**
 ```bash
 socket.gethostbyname(socket.gethostname())
 ```
@@ -35,6 +36,5 @@ socket.gethostbyname(socket.gethostname())
    - **Program that runs on Mac OS can only serve but not receive**
    - **While using Hamachi VPN the IP addresses of the users need to be hardcoded since the code itself gets the local network IP addresses**
    - **Problems when sending big files on poor internet connection**
-
 
 
